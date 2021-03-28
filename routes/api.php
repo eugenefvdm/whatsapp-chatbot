@@ -18,4 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/chat-bot', 'App\Http\Controllers\ChatBotController@listenToReplies');
+// Route::post('/chat-bot', 'App\Http\Controllers\ChatBotController@listenToReplies');
+
+Route::post('/chat-bot', 'App\Http\Controllers\WhatsAppController@incoming');

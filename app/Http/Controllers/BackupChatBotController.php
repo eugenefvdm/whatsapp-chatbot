@@ -2,31 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Twilio\Rest\Client;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\Request;
+use Twilio\Rest\Client;
 
-/**
- * https://www.twilio.com/blog/build-whatsapp-chatbot-twilio-whatsapp-api-php-laravel
- */
-class ChatBotController extends Controller
+class BackupChatBotController extends Controller
 {
     public function listenToReplies(Request $request)
     {
-        Log::debug($request->all());
-
         $from = $request->input('From');
-        $body = trim($request->input('Body'));
-
-        switch ($body) {
-            case "hi":
-            case "hello":
-            case "hallo":
-                $this->sendWhatsAppMessage("Good afternoon!", $from);
-                return;
-                break;                
-        }
+        $body = $request->input('Body');
 
         $client = new \GuzzleHttp\Client();
         try {
@@ -59,7 +44,6 @@ class ChatBotController extends Controller
     public function sendWhatsAppMessage(string $message, string $recipient)
     {
         $twilio_whatsapp_number = getenv('TWILIO_WHATSAPP_NUMBER');
-        
         $account_sid = getenv("TWILIO_SID");
         $auth_token = getenv("TWILIO_AUTH_TOKEN");
 
